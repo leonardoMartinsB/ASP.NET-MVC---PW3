@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -26,7 +27,7 @@ namespace WebApplication1.Controllers
         [HttpPost]
         public IActionResult Cadastrar(Evento evento)
         {
-            evento.Id = _eventos.Max(e => e.Id) + 1;
+            evento.Id = _eventos.Any() ? _eventos.Max(e => e.Id) + 1 : 1;
             _eventos.Add(evento);
             return RedirectToAction("Index");
         }
@@ -66,9 +67,9 @@ namespace WebApplication1.Controllers
         }
 
         [HttpPost]
-        public IActionResult Excluir(Evento evento)
+        public IActionResult ExcluirConfirmado(int id)
         {
-            var eventoParaRemover = _eventos.FirstOrDefault(e => e.Id == evento.Id);
+            var eventoParaRemover = _eventos.FirstOrDefault(e => e.Id == id);
             if (eventoParaRemover != null)
             {
                 _eventos.Remove(eventoParaRemover);
