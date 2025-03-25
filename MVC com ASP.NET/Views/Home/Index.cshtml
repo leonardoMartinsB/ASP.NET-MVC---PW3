@@ -1,0 +1,70 @@
+﻿@{
+    ViewData["Title"] = "Bem-vindo ao Sistema MVC";
+}
+
+<div class="text-center mt-4">
+    <h1 class="display-4 text-primary fw-bold">Bem-vindo ao Sistema MVC</h1>
+    <p class="lead text-secondary">Gerencie Carros, Celulares e Eventos de forma simples e eficiente.</p>
+</div>
+
+<div class="row mt-5">
+    <div class="col-md-4">
+        <div class="card text-center shadow-lg border-0">
+            <img src="~/carro.webp" class="card-img-top rounded-top" alt="Carros">
+            <div class="card-body">
+                <h5 class="card-title text-primary fw-bold">Carros</h5>
+                <p class="card-text text-muted">Gerencie sua frota e encontre os melhores modelos.</p>
+                <a asp-controller="Carro" asp-action="Index" class="btn btn-gradient">Ver Carros</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card text-center shadow-lg border-0">
+            <img src="~/celular.webp" class="card-img-top rounded-top" alt="Celulares">
+            <div class="card-body">
+                <h5 class="card-title text-primary fw-bold">Celulares</h5>
+                <p class="card-text text-muted">Gerencie modelos e características dos celulares.</p>
+                <a asp-controller="Celular" asp-action="Index" class="btn btn-gradient">Ver Celulares</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card text-center shadow-lg border-0">
+            <img src="~/evento.webp" class="card-img-top rounded-top" alt="Eventos">
+            <div class="card-body">
+                <h5 class="card-title text-primary fw-bold">Eventos</h5>
+                <p class="card-text text-muted">Gerencie seus eventos e venda ingressos facilmente.</p>
+                <a asp-controller="Evento" asp-action="Index" class="btn btn-gradient">Ver Eventos</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .btn-gradient {
+        background: linear-gradient(90deg, #1e3a8a, #9333ea);
+        color: white;
+        padding: 10px 20px;
+        border-radius: 25px;
+        transition: 0.3s;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+        .btn-gradient:hover {
+            background: linear-gradient(90deg, #9333ea, #1e3a8a);
+            transform: scale(1.05);
+        }
+
+    .card {
+        overflow: hidden;
+        transition: transform 0.3s;
+        border-radius: 15px;
+    }
+
+        .card:hover {
+            transform: translateY(-10px);
+        }
+</style>

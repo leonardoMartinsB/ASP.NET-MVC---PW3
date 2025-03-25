@@ -1,0 +1,61 @@
+﻿@model Evento
+
+@{
+    ViewData["Title"] = "Excluir Evento";
+}
+
+<h2 class="text-danger text-center">Tem certeza que deseja excluir este Evento?</h2>
+
+<div class="shadow p-4 rounded bg-white text-center">
+    <p><strong>Marca:</strong> @Model.Id</p>
+    <p><strong>Modelo:</strong> @Model.Nome</p>
+    <p><strong>Modelo:</strong> @Model.Local</p>
+    <p><strong>Preço:</strong> @Model.Data</p>
+</div>
+
+<div class="text-center mt-4">
+    <form asp-action="ExcluirConfirmado" method="post" class="d-inline">
+        <input type="hidden" asp-for="Id" />
+        <button type="submit" class="btn btn-danger btn-lg">Confirmar Exclusão</button>
+    </form>
+    <a asp-action="Index" class="btn btn-secondary btn-lg ms-2">Cancelar</a>
+</div>
+
+<style>
+    .btn-danger {
+        background-color: #dc3545;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 25px;
+        transition: 0.3s;
+        font-weight: bold;
+    }
+
+        .btn-danger:hover {
+            background-color: #c82333;
+            transform: scale(1.05);
+        }
+
+    .btn-secondary {
+        background-color: #6c757d;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 25px;
+        transition: 0.3s;
+        font-weight: bold;
+    }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+            transform: scale(1.05);
+        }
+
+    .shadow {
+        max-width: 500px;
+        margin: auto;
+        background: #f8f9fa;
+        padding: 20px;
+        border-radius: 10px;
+    }
+</style>
+

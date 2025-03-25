@@ -1,0 +1,57 @@
+﻿@model List<Evento>
+
+@{
+    ViewData["Title"] = "Lista de Eventos";
+}
+
+<h2 class="text-primary fw-bold">Lista de Eventos</h2>
+<a asp-action="Cadastrar" class="btn btn-gradient mb-3">Adicionar Novo Evento</a>
+<table class="table table-hover table-bordered shadow-sm rounded">
+    <thead class="bg-primary text-white">
+        <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>Data</th>
+            <th>Local</th>
+            <th class="text-center">Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var evento in Model)
+        {
+            <tr>
+                <td>@evento.Id</td>
+                <td>@evento.Nome</td>
+                <td>@evento.Data.ToString("dd/MM/yyyy")</td>
+                <td>@evento.Local</td>
+                <td class="text-center">
+                    <a asp-action="Visualizar" asp-route-id="@evento.Id" class="btn btn-info btn-sm">🔍 Ver</a>
+                    <a asp-action="Editar" asp-route-id="@evento.Id" class="btn btn-warning btn-sm">✏️ Editar</a>
+                    <a asp-action="Excluir" asp-route-id="@evento.Id" class="btn btn-danger btn-sm">🗑 Excluir</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<style>
+    .btn-gradient {
+        background: linear-gradient(90deg, #1e3a8a, #9333ea);
+        color: white;
+        padding: 10px 20px;
+        border-radius: 25px;
+        transition: 0.3s;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+        .btn-gradient:hover {
+            background: linear-gradient(90deg, #9333ea, #1e3a8a);
+            transform: scale(1.05);
+        }
+
+    .table {
+        border-radius: 10px;
+        overflow: hidden;
+    }
+</style>
