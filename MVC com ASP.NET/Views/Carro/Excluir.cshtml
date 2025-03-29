@@ -4,57 +4,103 @@
     ViewData["Title"] = "Excluir Carro";
 }
 
-<h2 class="text-danger text-center">Tem certeza que deseja excluir este carro?</h2>
+<div class="container_ex">
+    <div class="header-section text-center mb-4">
+        <h2 class="header-title text-danger">Excluir Carro</h2>
+        <p class="text-white">Tem certeza que deseja excluir este carro?</p>
+    </div>
 
-<div class="shadow p-4 rounded bg-white text-center">
-    <p><strong>Marca:</strong> @Model.Marca</p>
-    <p><strong>Modelo:</strong> @Model.Modelo</p>
-    <p><strong>Ano:</strong> @Model.Ano</p>
-    <p><strong>Preço:</strong> R$ @Model.Preco</p>
-</div>
+    <div class="car-card text-center">
+        <p><strong>🚗 Marca:</strong> @Model.Marca</p>
+        <hr class="divider">
+        <p><strong>📌 Modelo:</strong> @Model.Modelo</p>
+        <hr class="divider">
+        <p><strong>💰 Preço:</strong> R$ @Model.Preco.ToString("N2").Replace(",", ".")</p>
+    </div>
 
-<div class="text-center mt-4">
-    <form asp-action="ExcluirConfirmado" method="post" class="d-inline">
-        <input type="hidden" asp-for="Id" />
-        <button type="submit" class="btn btn-danger btn-lg">Confirmar Exclusão</button>
-    </form>
-    <a asp-action="Index" class="btn btn-secondary btn-lg ms-2">Cancelar</a>
+    <div class="btn-container">
+        <form asp-action="ExcluirConfirmado" method="post">
+            <input type="hidden" asp-for="Id" />
+            <button type="submit" class="btn-danger-modern">Confirmar Exclusão</button>
+        </form>
+        <a asp-action="Index" class="btn-modern-cancel">Voltar</a>
+    </div>
 </div>
 
 <style>
-    .btn-danger {
-        background-color: #dc3545;
+    body {
+        background-color: #121212;
         color: white;
-        padding: 10px 20px;
-        border-radius: 25px;
-        transition: 0.3s;
-        font-weight: bold;
+        font-family: 'Arial', sans-serif;
     }
 
-        .btn-danger:hover {
-            background-color: #c82333;
-            transform: scale(1.05);
-        }
-
-    .btn-secondary {
-        background-color: #6c757d;
-        color: white;
-        padding: 10px 20px;
-        border-radius: 25px;
-        transition: 0.3s;
-        font-weight: bold;
-    }
-
-        .btn-secondary:hover {
-            background-color: #5a6268;
-            transform: scale(1.05);
-        }
-
-    .shadow {
-        max-width: 500px;
+    .container_ex {
+        max-width: 600px;
         margin: auto;
-        background: #f8f9fa;
         padding: 20px;
-        border-radius: 10px;
     }
+
+    .header-section {
+        margin-bottom: 20px;
+    }
+
+    .header-title {
+        font-size: 2rem;
+        font-weight: bold;
+        text-shadow: 0px 10px 15px rgba(255, 0, 0, 0.3); 
+    }
+
+    .car-card {
+        background: #1e1e1e;
+        padding: 20px;
+        border-radius: 15px;
+        box-shadow: 0px 10px 30px rgba(255, 0, 0, 0.3); 
+        font-size: 1.1rem;
+        line-height: 1.6;
+        margin-bottom: 20px;
+    }
+
+    .divider {
+        border: 0;
+        height: 1px;
+        background: rgba(255, 255, 255, 0.2);
+        margin: 10px 0;
+    }
+
+    .btn-container {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+    }
+
+    .btn-danger-modern, .btn-modern-cancel {
+        flex: 1;
+        padding: 12px;
+        border-radius: 30px;
+        font-weight: bold;
+        transition: all 0.3s;
+        text-align: center;
+        text-decoration: none;
+    }
+
+    .btn-danger-modern {
+        background: linear-gradient(90deg, #ff0000, #b00000);
+        color: white;
+        border: none;
+    }
+
+        .btn-danger-modern:hover {
+            background: linear-gradient(90deg, #b00000, #ff0000);
+            transform: scale(1.05);
+        }
+
+    .btn-modern-cancel {
+        background: #6c757d;
+        color: white;
+    }
+
+        .btn-modern-cancel:hover {
+            background: #5a6268;
+            transform: scale(1.05);
+        }
 </style>

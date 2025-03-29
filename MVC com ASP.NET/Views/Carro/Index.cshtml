@@ -4,56 +4,141 @@
     ViewData["Title"] = "Lista de Carros";
 }
 
-<h2 class="text-primary fw-bold">Lista de Carros</h2>
-<a asp-action="Cadastrar" class="btn btn-gradient mb-3">Adicionar Novo Carro</a>
-<table class="table table-hover table-bordered shadow-sm rounded">
-    <thead class="bg-primary text-white">
-        <tr>
-            <th>ID</th>
-            <th>Marca</th>
-            <th>Modelo</th>
-            <th>Ano</th>
-            <th>Preço</th>
-            <th class="text-center">Ações</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var carro in Model)
-        {
-            <tr>
-                <td>@carro.Id</td>
-                <td>@carro.Marca</td>
-                <td>@carro.Modelo</td>
-                <td>@carro.Ano</td>
-                <td>R$ @carro.Preco</td>
-                <td class="text-center">
-                    <a asp-action="Visualizar" asp-route-id="@carro.Id" class="btn btn-info btn-sm">🔍 Ver</a>
-                    <a asp-action="Editar" asp-route-id="@carro.Id" class="btn btn-warning btn-sm">✏️ Editar</a>
-                    <a asp-action="Excluir" asp-route-id="@carro.Id" class="btn btn-danger btn-sm">🗑 Excluir</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+<div class="container-fluid">
+    <div class="header-section">
+        <h2 class="header-title">Lista de Carros</h2>
+        <a asp-action="Cadastrar" class="btn-modern">+ Adicionar Novo Carro</a>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table-custom">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Marca</th>
+                    <th>Modelo</th>
+                    <th>Cor</th>
+                    <th>Ano</th>
+                    <th>Placa</th>
+                    <th>Preço</th>
+                    <th class="text-center">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var carro in Model)
+                {
+                    <tr>
+                        <td>@carro.Id</td>
+                        <td>@carro.Marca</td>
+                        <td>@carro.Modelo</td>
+                        <td>@carro.Cor</td>
+                        <td>@carro.Ano</td>
+                        <td>@carro.Placa</td>
+                        <td>R$ @carro.Preco.ToString("N2").Replace(",", ".")</td> 
+                        <td class="text-center action-buttons">
+                            <a asp-action="Visualizar" asp-route-id="@carro.Id" class="btn-action view">🔍</a>
+                            <a asp-action="Editar" asp-route-id="@carro.Id" class="btn-action edit">✏️</a>
+                            <a asp-action="Excluir" asp-route-id="@carro.Id" class="btn-action delete">🗑</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
 
 <style>
-    .btn-gradient {
-        background: linear-gradient(90deg, #1e3a8a, #9333ea);
+    body {
+        background-color: #121212;
         color: white;
-        padding: 10px 20px;
-        border-radius: 25px;
-        transition: 0.3s;
-        text-decoration: none;
+        font-family: 'Arial', sans-serif;
+    }
+
+    .container-fluid {
+        padding: 40px;
+    }
+
+    .header-section {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .header-title {
+        font-size: 2rem;
         font-weight: bold;
     }
 
-        .btn-gradient:hover {
-            background: linear-gradient(90deg, #9333ea, #1e3a8a);
+    .btn-modern {
+        background: linear-gradient(90deg, #9333ea, #1e3a8a);
+        color: white;
+        padding: 12px 24px;
+        border-radius: 30px;
+        text-decoration: none;
+        font-weight: bold;
+        transition: all 0.3s;
+    }
+
+        .btn-modern:hover {
+            background: linear-gradient(90deg, #1e3a8a, #9333ea);
             transform: scale(1.05);
         }
 
-    .table {
-        border-radius: 10px;
+    .table-custom {
+        width: 100%;
+        border-collapse: collapse;
+        border-radius: 15px;
         overflow: hidden;
+        background: #1e1e1e;
+        box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+    }
+
+        .table-custom thead {
+            background: linear-gradient(90deg, #1e3a8a, #9333ea);
+            color: white;
+        }
+
+        .table-custom th, .table-custom td {
+            padding: 15px;
+            text-align: left;
+        }
+
+        .table-custom tbody tr:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+    .action-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .btn-action {
+        padding: 8px 12px;
+        border-radius: 50%;
+        text-decoration: none;
+        font-size: 1.2rem;
+        transition: all 0.3s;
+    }
+
+    .view {
+        background: #007bff;
+        color: white;
+    }
+
+    .edit {
+        background: #ffc107;
+        color: black;
+    }
+
+    .delete {
+        background: #dc3545;
+        color: white;
+    }
+
+    .btn-action:hover {
+        transform: scale(1.1);
+        opacity: 0.8;
     }
 </style>

@@ -1,70 +1,104 @@
 ﻿@{
-    ViewData["Title"] = "Bem-vindo ao Sistema MVC";
+    ViewData["Title"] = "MVC - PW";
 }
 
-<div class="text-center mt-4">
-    <h1 class="display-4 text-primary fw-bold">Bem-vindo ao Sistema MVC</h1>
-    <p class="lead text-secondary">Gerencie Carros, Celulares e Eventos de forma simples e eficiente.</p>
+<div class="hero-section">
+    <div class="hero-content">
+        <h1 class="hero-title">Explore o Futuro da Gestão</h1>
+        <p class="hero-text">Gerencie Carros, Celulares e Eventos de maneira inovadora e intuitiva.</p>
+    </div>
 </div>
 
-<div class="row mt-5">
-    <div class="col-md-4">
-        <div class="card text-center shadow-lg border-0">
-            <img src="~/images/carro.jpg" class="card-img-top rounded-top" alt="Carros">
-            <div class="card-body">
-                <h5 class="card-title text-primary fw-bold">Carros</h5>
-                <p class="card-text text-muted">Gerencie sua frota e encontre os melhores modelos.</p>
-                <a asp-controller="Carro" asp-action="Index" class="btn btn-gradient">Ver Carros</a>
-            </div>
+<div class="grid-container">
+    <div class="grid-item">
+        <div class="grid-card">
+            <div class="grid-icon">🚗</div>
+            <h3>Carros</h3>
+            <p>Controle sua frota de forma eficiente e descubra novos modelos.</p>
+            <a asp-controller="Carro" asp-action="Index" class="btn-modern">Acessar</a>
         </div>
     </div>
-
-    <div class="col-md-4">
-        <div class="card text-center shadow-lg border-0">
-            <img src="~/images/celular.jpg" class="card-img-top rounded-top" alt="Celulares">
-            <div class="card-body">
-                <h5 class="card-title text-primary fw-bold">Celulares</h5>
-                <p class="card-text text-muted">Gerencie modelos e características dos celulares.</p>
-                <a asp-controller="Celular" asp-action="Index" class="btn btn-gradient">Ver Celulares</a>
-            </div>
+    <div class="grid-item">
+        <div class="grid-card">
+            <div class="grid-icon">📱</div>
+            <h3>Celulares</h3>
+            <p>Gerencie dispositivos e explore as últimas tendências do mercado.</p>
+            <a asp-controller="Celular" asp-action="Index" class="btn-modern">Acessar</a>
         </div>
     </div>
-
-    <div class="col-md-4">
-        <div class="card text-center shadow-lg border-0">
-            <img src="~/images/evento.jpg" class="card-img-top rounded-top" alt="Eventos">
-            <div class="card-body">
-                <h5 class="card-title text-primary fw-bold">Eventos</h5>
-                <p class="card-text text-muted">Gerencie seus eventos e venda ingressos facilmente.</p>
-                <a asp-controller="Evento" asp-action="Index" class="btn btn-gradient">Ver Eventos</a>
-            </div>
+    <div class="grid-item">
+        <div class="grid-card">
+            <div class="grid-icon">🎟️</div>
+            <h3>Eventos</h3>
+            <p>Organize eventos e simplifique a venda de ingressos.</p>
+            <a asp-controller="Evento" asp-action="Index" class="btn-modern">Acessar</a>
         </div>
     </div>
 </div>
 
 <style>
-    .btn-gradient {
-        background: linear-gradient(90deg, #1e3a8a, #9333ea);
+    body {
+        background-color: #121212;
         color: white;
-        padding: 10px 20px;
-        border-radius: 25px;
-        transition: 0.3s;
-        text-decoration: none;
+        font-family: 'Arial', sans-serif;
+    }
+
+    .hero-section {
+        text-align: center;
+        padding: 100px 20px;
+        background: linear-gradient(135deg, #1e3a8a, #9333ea);
+        border-radius: 20px;
+        margin: 20px;
+    }
+
+    .hero-title {
+        font-size: 3rem;
         font-weight: bold;
     }
 
-        .btn-gradient:hover {
-            background: linear-gradient(90deg, #9333ea, #1e3a8a);
+    .hero-text {
+        font-size: 1.2rem;
+        opacity: 0.8;
+    }
+
+    .grid-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 20px;
+        padding: 40px;
+    }
+
+    .grid-card {
+        background: #1e1e1e;
+        padding: 30px;
+        border-radius: 15px;
+        text-align: center;
+        box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+        transition: transform 0.3s ease-in-out;
+    }
+
+        .grid-card:hover {
             transform: scale(1.05);
         }
 
-    .card {
-        overflow: hidden;
-        transition: transform 0.3s;
-        border-radius: 15px;
+    .grid-icon {
+        font-size: 3rem;
+        margin-bottom: 10px;
     }
 
-        .card:hover {
-            transform: translateY(-10px);
+    .btn-modern {
+        display: inline-block;
+        padding: 10px 20px;
+        margin-top: 10px;
+        background: #9333ea;
+        color: white;
+        border-radius: 20px;
+        text-decoration: none;
+        transition: all 0.3s;
+    }
+
+        .btn-modern:hover {
+            background: #1e3a8a;
+            transform: scale(1.1);
         }
 </style>

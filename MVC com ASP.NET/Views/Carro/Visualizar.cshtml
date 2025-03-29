@@ -4,49 +4,102 @@
     ViewData["Title"] = "Detalhes do Carro";
 }
 
-<h2 class="text-center mb-4">Detalhes do Carro</h2>
+<div class="container_details">
+    <div class="header-section text-center mb-4">
+        <h2 class="header-title">Detalhes do Carro</h2>
+        <p class="text-secondary">Informações detalhadas sobre o veículo.</p>
+    </div>
 
-<div class="card p-4 shadow-sm rounded">
-    <ul class="list-unstyled">
-        <li><strong>Marca:</strong> @Model.Marca</li>
-        <li><strong>Modelo:</strong> @Model.Modelo</li>
-        <li><strong>Ano:</strong> @Model.Ano</li>
-        <li><strong>Preço:</strong> R$ @Model.Preco</li>
-    </ul>
+    <div class="car-details-card">
+        <div class="row">
+            <div class="col-12 col-md-4">
+                <p><strong>🚗 Marca:</strong> @Model.Marca</p>
+            </div>
+            <div class="col-12 col-md-4">
+                <p><strong>📌 Modelo:</strong> @Model.Modelo</p>
+            </div>
+            <div class="col-12 col-md-4">
+                <p><strong>📅 Ano:</strong> @Model.Ano</p>
+            </div>
+        </div>
+        <hr class="divider">
+        <div class="row">
+            <div class="col-12 col-md-4">
+                <p><strong>💰 Preço:</strong> R$ @String.Format("{0:N2}", Model.Preco)</p>
+            </div>
+            <div class="col-12 col-md-4">
+                <p><strong>📋 Placa:</strong> @Model.Placa</p>
+            </div>
+            <div class="col-12 col-md-4">
+                <p><strong>🎨 Cor:</strong> @Model.Cor</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="text-center mt-4">
+        <a asp-action="Index" class="btn-modern">Voltar</a>
+    </div>
 </div>
 
-<a asp-action="Index" class="btn btn-primary d-block mx-auto mt-4">Voltar</a>
-
 <style>
-    h2 {
-        font-size: 28px;
-        font-weight: bold;
-        color: #007bff;
-    }
-
-    .card {
-        background-color: #f8f9fa;
-        border-radius: 10px;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    }
-
-    .list-unstyled li {
-        font-size: 18px;
-        margin-bottom: 10px;
-        color: #333;
-    }
-
-    .btn-primary {
-        background-color: #007bff;
-        border-color: #007bff;
+    body {
+        background-color: #121212;
         color: white;
-        padding: 12px 20px;
-        font-size: 16px;
-        border-radius: 30px;
-        transition: 0.3s;
+        font-family: 'Arial', sans-serif;
     }
 
-        .btn-primary:hover {
-            background-color: #0056b3;
+    .container_details {
+        max-width: 800px;
+        margin: auto;
+        padding: 40px;
+    }
+
+    .header-section {
+        margin-bottom: 30px;
+    }
+
+    .header-title {
+        font-size: 2.5rem;
+        font-weight: bold;
+        color: #1db954;
+    }
+
+    .text-secondary {
+        color: rgba(255, 255, 255, 0.8);
+        font-size: 1.1rem;
+    }
+
+    .car-details-card {
+        background: #1e1e1e;
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0px 4px 15px rgba(29, 185, 84, 0.4);
+        font-size: 1.3rem;
+        line-height: 1.8;
+        margin-bottom: 30px;
+    }
+
+    .divider {
+        border: 0;
+        height: 1px;
+        background: rgba(255, 255, 255, 0.3);
+        margin: 20px 0;
+    }
+
+    .btn-modern {
+        background: linear-gradient(90deg, #1db954, #117a37);
+        color: white;
+        padding: 18px 35px;
+        border-radius: 30px;
+        text-decoration: none;
+        font-weight: bold;
+        font-size: 1.2rem;
+        letter-spacing: 1px;
+        transition: all 0.3s;
+    }
+
+        .btn-modern:hover {
+            background: linear-gradient(90deg, #117a37, #1db954);
+            transform: scale(1.1);
         }
 </style>

@@ -1,51 +1,174 @@
 ﻿@model Carro
-
 @{
     ViewData["Title"] = "Cadastrar Carro";
 }
+<div class="container">
+    <div class="header-section text-center mb-4">
+        <h2 class="header-title">Cadastrar Novo Carro</h2>
+    </div>
+    <form asp-action="Cadastrar" method="post" class="form-container p-5 bg-dark text-white rounded shadow-lg" style="max-width: 600px; margin: auto;">
+        <div class="row">
+            <div class="col-md-6 mb-4">
+                <label class="form-label fw-bold">Marca</label>
+                <input asp-for="Marca" class="form-control input-custom" placeholder="Digite a marca" required minlength="2" maxlength="50" pattern="[A-Za-zÀ-ÿ\s]+" title="Apenas letras e espaços são permitidos" />
+            </div>
+            <div class="col-md-6 mb-4">
+                <label class="form-label fw-bold">Modelo</label>
+                <input asp-for="Modelo" class="form-control input-custom" placeholder="Digite o modelo" required minlength="2" maxlength="50" pattern="[A-Za-z0-9À-ÿ\s]+" title="Apenas letras, números e espaços são permitidos" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 mb-4">
+                <label class="form-label fw-bold">Ano</label>
+                <input asp-for="Ano" class="form-control input-custom" type="number" placeholder="Digite o ano" required min="1886" max="2100" title="Digite um ano válido entre 1886 e 2100" />
+            </div>
+            <div class="col-md-6 mb-4">
+                <label class="form-label fw-bold">Preço</label>
+                <input asp-for="Preco" id="preco" class="form-control input-custom" type="text" placeholder="Digite o preço" required />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 mb-4">
+                <label class="form-label fw-bold">Cor</label>
+                <input asp-for="Cor" class="form-control input-custom" placeholder="Digite a cor" required minlength="3" maxlength="20" pattern="[A-Za-zÀ-ÿ\s]+" title="Apenas letras e espaços são permitidos" />
+            </div>
+            <div class="col-md-6 mb-4">
+                <label class="form-label fw-bold">Placa</label>
+                <input asp-for="Placa" id="placa" class="form-control input-custom" placeholder="Digite a placa" required />
+            </div>
+        </div>
+        <div class="btn-container">
+            <button type="submit" class="btn-modern">Salvar</button>
+            <a asp-action="Index" class="btn-modern-cancel">Cancelar</a>
+        </div>
+    </form>
+</div>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const form = document.querySelector("form");
+        const precoInput = document.getElementById("preco");
+        const placaInput = document.getElementById("placa");
 
-<h2 class="text-primary fw-bold">Cadastrar Novo Carro</h2>
+        let valorAtualCentavos = 0;
 
-<form asp-action="Cadastrar" method="post" class="shadow p-4 rounded bg-white">
-    <div class="mb-3">
-        <label class="form-label fw-bold">Marca</label>
-        <input asp-for="Marca" class="form-control" placeholder="Digite a marca" required />
-    </div>
-    <div class="mb-3">
-        <label class="form-label fw-bold">Modelo</label>
-        <input asp-for="Modelo" class="form-control" placeholder="Digite o modelo" required />
-    </div>
-    <div class="mb-3">
-        <label class="form-label fw-bold">Ano</label>
-        <input asp-for="Ano" class="form-control" type="number" placeholder="Digite o ano" required />
-    </div>
-    <div class="mb-3">
-        <label class="form-label fw-bold">Preço</label>
-        <input asp-for="Preco" class="form-control" type="number" step="0.01" placeholder="Digite o preço" required />
-    </div>
-    <button type="submit" class="btn btn-gradient">💾 Salvar</button>
-    <a asp-action="Index" class="btn btn-secondary">❌ Cancelar</a>
-</form>
+        function formatarPreco(valorCentavos) {
+            const valorReais = valorCentavos / 100;
+
+            return valorReais.toLocaleString("pt-BR", {
+                style: "currency",
+                currency: "BRL",
+                minimumFractionDigits: 2
+            });
+        }
+
+        precoInput.addEventListener("input", function (e) {
+            const apenasNumeros = e.target.value.replace(/\D/g, "");
+
+            if (!apenasNumeros) {
+                valorAtualCentavos = 0;
+                e.target.value = "R$ 0,00";
+                return;
+            }
+
+            valorAtualCentavos = parseInt(apenasNumeros);
+
+            e.target.value = formatarPreco(valorAtualCentavos);
+        });
+
+        placaInput.addEventListener("input", function (e) {
+            let value = e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, "");
+            if (value.length > 3) {
+                value = value.slice(0, 3) + "-" + value.slice(3, 7);
+            }
+            e.target.value = value;
+        });
+
+        form.addEventListener("submit", function (e) {
+            precoInput.value = (valorAtualCentavos / 100).toString().replace(",", ".");
+
+            placaInput.value = placaInput.value.replace("-", "");
+        });
+    });
+</script>
+
 
 <style>
-    .btn-gradient {
-        background: linear-gradient(90deg, #1e3a8a, #9333ea);
+    body {
+        background-color: #121212;
         color: white;
-        padding: 10px 20px;
-        border-radius: 25px;
-        transition: 0.3s;
-        text-decoration: none;
+        font-family: 'Arial', sans-serif;
+    }
+
+    .header-section {
+        margin-bottom: 20px;
+    }
+
+    .header-title {
+        font-size: 2rem;
         font-weight: bold;
     }
 
-        .btn-gradient:hover {
-            background: linear-gradient(90deg, #9333ea, #1e3a8a);
+    .form-container {
+        background: #1e1e1e;
+        border-radius: 20px;
+        padding: 20px;
+        box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    .input-custom {
+        background: #2a2a2a;
+        color: white;
+        border: none;
+        border-radius: 15px;
+        padding: 12px;
+        transition: 0.3s ease-in-out;
+    }
+
+        .input-custom::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .input-custom:focus {
+            box-shadow: 0 0 10px rgba(41, 128, 185, 0.7);
+            border-color: #1e3a8a;
+        }
+
+    .btn-container {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20px;
+    }
+
+    .btn-modern, .btn-modern-cancel {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 48%;
+        padding: 12px;
+        border-radius: 30px;
+        font-weight: bold;
+        transition: all 0.3s;
+        text-align: center;
+        text-decoration: none;
+    }
+
+    .btn-modern {
+        background: linear-gradient(90deg, #9333ea, #1e3a8a);
+        color: white;
+    }
+
+        .btn-modern:hover {
+            background: linear-gradient(90deg, #1e3a8a, #9333ea);
             transform: scale(1.05);
         }
 
-    form {
-        max-width: 500px;
-        margin: auto;
-        background: #f8f9fa;
+    .btn-modern-cancel {
+        background: #6c757d;
+        color: white;
     }
+
+        .btn-modern-cancel:hover {
+            background: #5a6268;
+            transform: scale(1.05);
+        }
 </style>
