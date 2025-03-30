@@ -4,65 +4,96 @@
     ViewData["Title"] = "Cadastrar Evento";
 }
 
-<h2 class="text-primary fw-bold text-center mb-4">Cadastrar Novo Evento</h2>
+<h2 class="header-title text-center mb-4">Cadastrar Novo Evento</h2>
 
-<form asp-action="Cadastrar" method="post" class="shadow p-4 rounded bg-white mx-auto">
+<form asp-action="Cadastrar" method="post" class="form-container">
     <div class="mb-3">
         <label class="form-label fw-bold">Nome do Evento</label>
-        <input asp-for="Nome" class="form-control" placeholder="Digite o nome do Evento" required />
+        <input asp-for="Nome" class="input-custom" placeholder="Digite o nome do Evento" required />
     </div>
     <div class="mb-3">
         <label class="form-label fw-bold">Local</label>
-        <input asp-for="Local" class="form-control" placeholder="Digite o local do Evento" required />
+        <input asp-for="Local" class="input-custom" placeholder="Digite o local do Evento" required />
     </div>
     <div class="mb-3">
         <label class="form-label fw-bold">Data</label>
-        <input asp-for="Data" class="form-control" type="datetime-local" required />
+        <input asp-for="Data" class="input-custom" type="date" required />
     </div>
-    <button type="submit" class="btn btn-gradient w-100 mt-3">💾 Salvar</button>
-    <a asp-action="Index" class="btn btn-secondary w-100 mt-2">❌ Cancelar</a>
+    <button type="submit" class="btn-modern w-100 mt-3">Salvar</button>
+    <a asp-action="Index" class="btn-modern-cancel w-100 mt-2">Cancelar</a>
 </form>
 
 <style>
-    .btn-gradient {
-        background: linear-gradient(90deg, #1e3a8a, #9333ea);
+    body {
+        background-color: #121212;
         color: white;
-        padding: 12px 20px;
-        border-radius: 25px;
-        transition: 0.3s;
-        font-weight: bold;
-        text-decoration: none;
-        text-align: center;
+        font-family: 'Arial', sans-serif;
     }
 
-        .btn-gradient:hover {
-            background: linear-gradient(90deg, #9333ea, #1e3a8a);
+    .header-title {
+        font-size: 2rem;
+        font-weight: bold;
+        color: #9333ea;
+    }
+
+    .form-container {
+        background: #1e1e1e;
+        border-radius: 20px;
+        padding: 20px;
+        box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+        max-width: 600px;
+        margin: auto;
+    }
+
+    .input-custom {
+        background: #2a2a2a;
+        color: white;
+        border: none;
+        border-radius: 15px;
+        padding: 12px;
+        transition: 0.3s ease-in-out;
+        width: 100%;
+    }
+
+        .input-custom::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .input-custom:focus {
+            box-shadow: 0 0 10px rgba(41, 128, 185, 0.7);
+            border-color: #1e3a8a;
+        }
+
+    .btn-modern, .btn-modern-cancel {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 48%;
+        padding: 12px;
+        border-radius: 30px;
+        font-weight: bold;
+        transition: all 0.3s;
+        text-align: center;
+        text-decoration: none;
+    }
+
+    .btn-modern {
+        background: linear-gradient(90deg, #9333ea, #1e3a8a);
+        color: white;
+    }
+
+        .btn-modern:hover {
+            background: linear-gradient(90deg, #1e3a8a, #9333ea);
             transform: scale(1.05);
         }
 
-    form {
-        max-width: 600px;
-        margin: auto;
-        background: #f8f9fa;
-        padding: 30px;
-        border-radius: 15px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
-
-    .form-label {
-        font-size: 16px;
-        color: #333;
-    }
-
-    .btn-secondary {
-        background-color: #6c757d;
+    .btn-modern-cancel {
+        background: #6c757d;
         color: white;
-        padding: 12px 20px;
-        border-radius: 25px;
-        text-align: center;
     }
 
-        .btn-secondary:hover {
-            background-color: #5a6268;
+        .btn-modern-cancel:hover {
+            background: #5a6268;
+            transform: scale(1.05);
         }
 </style>

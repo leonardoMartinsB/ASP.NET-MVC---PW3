@@ -9,9 +9,9 @@ namespace WebApplication1.Controllers
     {
         private static List<Evento> _eventos = new List<Evento>
         {
-            new Evento { Id = 1, Nome = "Lollapalooza", Data = new DateTime(2024, 4, 15), Local = "São Paulo" },
-            new Evento { Id = 2, Nome = "Rock in Rio", Data = new DateTime(2024, 9, 10), Local = "Rio de Janeiro" },
-            new Evento { Id = 3, Nome = "Comic Con", Data = new DateTime(2024, 12, 5), Local = "São Paulo" }
+            new Evento { Id = 1, Nome = "Lollapalooza", Data = new DateTime(2025, 4, 15), Local = "São Paulo" },
+            new Evento { Id = 2, Nome = "Rock in Rio", Data = new DateTime(2026, 9, 10), Local = "Rio de Janeiro" },
+            new Evento { Id = 3, Nome = "Comic Con", Data = new DateTime(2025, 12, 5), Local = "São Paulo" }
         };
 
         public IActionResult Index()

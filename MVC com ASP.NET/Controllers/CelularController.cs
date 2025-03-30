@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
+using System;
+using System.Globalization;
 
 namespace WebApplication1.Controllers
 {
@@ -28,6 +30,7 @@ namespace WebApplication1.Controllers
         {
             if (ModelState.IsValid)
             {
+                celular.Preco = RemoverFormatacaoPreco(celular.Preco.ToString());
                 celular.Id = _celulares.Any() ? _celulares.Max(c => c.Id) + 1 : 1;
                 _celulares.Add(celular);
                 return RedirectToAction("Index");
@@ -49,7 +52,7 @@ namespace WebApplication1.Controllers
             {
                 celularExistente.Marca = celular.Marca;
                 celularExistente.Modelo = celular.Modelo;
-                celularExistente.Preco = celular.Preco;
+                celularExistente.Preco = RemoverFormatacaoPreco(celular.Preco.ToString());
                 return RedirectToAction("Index");
             }
             return View(celular);
@@ -72,5 +75,39 @@ namespace WebApplication1.Controllers
             }
             return NotFound();
         }
+
+        private decimal RemoverFormatacaoPreco(string preco)
+        {
+            try
+            {
+
+                if (decimal.TryParse(preco, out decimal valorDireto))
+                {
+                    Console.WriteLine($"Valor convertido diretamente: {valorDireto}");
+                    return valorDireto;
+                }
+
+                string precoLimpo = preco
+                    .Replace("R$", "")
+                    .Replace(" ", "")
+                    .Replace(".", "")
+                    .Replace(",", ".");
+
+                if (decimal.TryParse(precoLimpo, out decimal resultado))
+                {
+                    Console.WriteLine($"Valor após limpeza de formatação: {resultado}");
+                    return resultado;
+                }
+
+                Console.WriteLine("Não foi possível converter o preço, retornando zero");
+                return 0;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Erro ao processar o preço: {ex.Message}");
+                return 0;
+            }
+        }
+
     }
 }

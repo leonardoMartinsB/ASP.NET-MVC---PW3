@@ -6,7 +6,7 @@
 
 <div class="container-fluid">
     <div class="header-section">
-        <h2 class="header-title">📱 Lista de Celulares</h2>
+        <h2 class="header-title">Lista de Celulares</h2>
         <a asp-action="Cadastrar" class="btn-modern">+ Adicionar Novo Celular</a>
     </div>
 
@@ -28,7 +28,7 @@
                         <td>@celular.Id</td>
                         <td>@celular.Marca</td>
                         <td>@celular.Modelo</td>
-                        <td>R$ @celular.Preco</td>
+                        <td>R$ @celular.Preco.ToString("N2").Replace(",", ".")</td>
                         <td class="text-center action-buttons">
                             <a asp-action="Visualizar" asp-route-id="@celular.Id" class="btn-action view">🔍</a>
                             <a asp-action="Editar" asp-route-id="@celular.Id" class="btn-action edit">✏️</a>
