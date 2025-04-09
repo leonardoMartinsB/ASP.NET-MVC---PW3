@@ -19,8 +19,8 @@
         </div>
         <div class="row">
             <div class="col-md-6 mb-4">
-                <label class="form-label fw-bold">Ano</label>
-                <input asp-for="Ano" class="form-control input-custom" type="number" placeholder="Digite o ano" required min="1886" max="2100" title="Digite um ano válido entre 1886 e 2100" />
+                <label class="form-label fw-bold">Data de Fabricação</label>
+                <input asp-for="Ano" class="form-control input-custom" type="date" required />
             </div>
             <div class="col-md-6 mb-4">
                 <label class="form-label fw-bold">Preço</label>
@@ -43,6 +43,7 @@
         </div>
     </form>
 </div>
+
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         const form = document.querySelector("form");

@@ -5,7 +5,6 @@
 }
 
 <div class="container">
-
     <form asp-action="Editar" method="post" class="bg-dark text-white rounded shadow-lg p-4" style="max-width: 500px; margin: auto;">
         <h2 class="text-center mb-4 text-white">Editar Celular</h2>
         <input asp-for="Id" type="hidden" />
@@ -14,13 +13,20 @@
             <label for="Marca" class="form-label fw-bold">Marca</label>
             <input asp-for="Marca" id="Marca" class="form-control input-custom" placeholder="Digite a marca" required />
         </div>
+
         <div class="mb-3">
             <label for="Modelo" class="form-label fw-bold">Modelo</label>
             <input asp-for="Modelo" id="Modelo" class="form-control input-custom" placeholder="Digite o modelo" required />
         </div>
+
         <div class="mb-3">
             <label for="Preco" class="form-label fw-bold">Preço</label>
             <input asp-for="Preco" id="preco" class="form-control input-custom" type="text" placeholder="Digite o preço" required value="@Model.Preco.ToString("N2").Replace(",", ".")" />
+        </div>
+
+        <div class="mb-3">
+            <label for="Data" class="form-label fw-bold">Data</label>
+            <input asp-for="Data" id="Data" class="form-control input-custom" type="date" value="@Model.Data.ToString("yyyy-MM-dd")" required />
         </div>
 
         <div class="text-center">
@@ -43,10 +49,8 @@
         let valorAtualCentavos = valorInicial * 100;
 
         $('#preco').on('input', function(e) {
-
             const cursorPos = this.selectionStart;
             const valorAntigo = $(this).val();
-
             const apenasNumeros = $(this).val().replace(/\D/g, '');
 
             if (!apenasNumeros) {
@@ -56,9 +60,7 @@
             }
 
             valorAtualCentavos = parseInt(apenasNumeros);
-
             const valorEmReais = valorAtualCentavos / 100;
-
             const valorFormatado = valorEmReais.toLocaleString('pt-BR', {
                 style: 'currency',
                 currency: 'BRL',

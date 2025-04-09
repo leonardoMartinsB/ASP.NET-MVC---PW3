@@ -1,15 +1,15 @@
-﻿@model List<Carro>
+﻿@model List<Aluno>
 
 @{
-    ViewData["Title"] = "Lista de Carros";
+    ViewData["Title"] = "Lista de Alunos";
 }
 
 <div class="container-fluid">
     <div class="header-section">
-        <h2 class="header-title">Lista de Carros</h2>
-        <div class="action-group">
+        <h2 class="header-title">Lista de Alunos</h2>
+        <div class="button-group">
             <a asp-action="BaixarPDF" class="btn-modern btn-download">📄 Baixar PDF</a>
-            <a asp-action="Cadastrar" class="btn-modern">+ Adicionar Novo Carro</a>
+            <a asp-action="Cadastrar" class="btn-modern">+ Adicionar Novo Aluno</a>
         </div>
     </div>
 
@@ -19,30 +19,24 @@
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Marca</th>
-                    <th>Modelo</th>
-                    <th>Cor</th>
-                    <th>Ano</th>
-                    <th>Placa</th>
-                    <th>Preço</th>
+                    <th>Nome</th>
+                    <th>RA</th>
+                    <th>Data de Nascimento</th>
                     <th class="text-center">Ações</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach (var carro in Model)
+                @foreach (var aluno in Model)
                 {
                     <tr>
-                        <td>@carro.Id</td>
-                        <td>@carro.Marca</td>
-                        <td>@carro.Modelo</td>
-                        <td>@carro.Cor</td>
-                        <td>@carro.Ano.ToString("dd/MM/yyyy")</td>
-                        <td>@carro.Placa</td>
-                        <td>R$ @carro.Preco.ToString("N2").Replace(",", ".")</td> 
+                        <td>@aluno.Id</td>
+                        <td>@aluno.Nome</td>
+                        <td>@aluno.RA</td>
+                        <td>@aluno.DataNascimento.ToString("dd/MM/yyyy")</td>
                         <td class="text-center action-buttons">
-                            <a asp-action="Visualizar" asp-route-id="@carro.Id" class="btn-action view">🔍</a>
-                            <a asp-action="Editar" asp-route-id="@carro.Id" class="btn-action edit">✏️</a>
-                            <a asp-action="Excluir" asp-route-id="@carro.Id" class="btn-action delete">🗑</a>
+                            <a asp-action="Visualizar" asp-route-id="@aluno.Id" class="btn-action view">🔍</a>
+                            <a asp-action="Editar" asp-route-id="@aluno.Id" class="btn-action edit">✏️</a>
+                            <a asp-action="Excluir" asp-route-id="@aluno.Id" class="btn-action delete">🗑</a>
                         </td>
                     </tr>
                 }

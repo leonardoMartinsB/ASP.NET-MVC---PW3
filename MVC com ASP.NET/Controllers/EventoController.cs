@@ -3,6 +3,16 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
+using iText.Kernel.Pdf;
+using iText.Layout;
+using iText.Layout.Element;
+using iText.Layout.Properties;
+using iText.IO.Font.Constants;
+using iText.Kernel.Font;
+using iText.Layout.Borders;
+using Microsoft.AspNetCore.Hosting;
+using System.IO;
+
 namespace WebApplication1.Controllers
 {
     public class EventoController : Controller
@@ -75,6 +85,70 @@ namespace WebApplication1.Controllers
                 _eventos.Remove(eventoParaRemover);
             }
             return RedirectToAction("Index");
+        }
+        public IActionResult BaixarPDF()
+        {
+            using (var memoryStream = new MemoryStream())
+            {
+                var writer = new PdfWriter(memoryStream);
+                var pdf = new PdfDocument(writer);
+                var document = new Document(pdf);
+
+                // Fontes
+                PdfFont normalFont = PdfFontFactory.CreateFont(StandardFonts.HELVETICA);
+                PdfFont boldFont = PdfFontFactory.CreateFont(StandardFonts.HELVETICA_BOLD);
+
+                document.SetFont(normalFont);
+
+                // Título
+                document.Add(new Paragraph("Lista de Eventos")
+                    .SetFont(boldFont)
+                    .SetFontSize(20)
+                    .SetTextAlignment(TextAlignment.CENTER)
+                    .SetMarginBottom(20));
+
+                // Tabela com 4 colunas
+                Table table = new Table(UnitValue.CreatePercentArray(new float[] { 1, 4, 4, 3 })).UseAllAvailableWidth();
+
+                // Cabeçalho
+                table.AddHeaderCell(CreateHeaderCell("ID", boldFont));
+                table.AddHeaderCell(CreateHeaderCell("Nome", boldFont));
+                table.AddHeaderCell(CreateHeaderCell("Local", boldFont));
+                table.AddHeaderCell(CreateHeaderCell("Data", boldFont));
+
+                // Dados
+                foreach (var evento in _eventos)
+                {
+                    table.AddCell(CreateCell(evento.Id.ToString(), normalFont));
+                    table.AddCell(CreateCell(evento.Nome, normalFont));
+                    table.AddCell(CreateCell(evento.Local, normalFont));
+                    table.AddCell(CreateCell(evento.Data.ToString("dd/MM/yyyy"), normalFont));
+                }
+
+                document.Add(table);
+                document.Close();
+
+                return File(memoryStream.ToArray(), "application/pdf", "ListaDeEventos.pdf");
+            }
+        }
+
+        // Estilo cabeçalho
+        private Cell CreateHeaderCell(string content, PdfFont font)
+        {
+            return new Cell()
+                .Add(new Paragraph(content).SetFont(font))
+                .SetBackgroundColor(iText.Kernel.Colors.ColorConstants.LIGHT_GRAY)
+                .SetTextAlignment(TextAlignment.CENTER)
+                .SetBorder(new SolidBorder(1));
+        }
+
+        // Estilo conteúdo
+        private Cell CreateCell(string content, PdfFont font)
+        {
+            return new Cell()
+                .Add(new Paragraph(content).SetFont(font))
+                .SetTextAlignment(TextAlignment.LEFT)
+                .SetBorder(new SolidBorder(0.5f));
         }
     }
 }

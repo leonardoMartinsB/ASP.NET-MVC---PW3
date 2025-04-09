@@ -1,23 +1,23 @@
-﻿@model Evento
+﻿@model Aluno
 
 @{
-    ViewData["Title"] = "Cadastrar Evento";
+    ViewData["Title"] = "Cadastrar Aluno";
 }
 
-<h2 class="header-title text-center mb-4">Cadastrar Novo Evento</h2>
+<h2 class="header-title text-center mb-4">Cadastrar Novo Aluno</h2>
 
 <form asp-action="Cadastrar" method="post" class="form-container">
     <div class="mb-3">
-        <label class="form-label fw-bold">Nome do Evento</label>
-        <input asp-for="Nome" class="input-custom" placeholder="Digite o nome do Evento" required />
+        <label class="form-label fw-bold">Nome do Aluno</label>
+        <input asp-for="Nome" class="input-custom" placeholder="Digite o nome do Aluno" required />
     </div>
     <div class="mb-3">
-        <label class="form-label fw-bold">Local</label>
-        <input asp-for="Local" class="input-custom" placeholder="Digite o local do Evento" required />
+        <label class="form-label fw-bold">RA</label>
+        <input asp-for="RA" class="input-custom" placeholder="Digite o RA do Aluno" type="number" required />
     </div>
     <div class="mb-3">
-        <label class="form-label fw-bold">Data</label>
-        <input asp-for="Data" class="input-custom" type="date" required />
+        <label class="form-label fw-bold">Data de Nascimento</label>
+        <input asp-for="DataNascimento" class="input-custom" type="date" required />
     </div>
     <button type="submit" class="btn-modern w-100 mt-3">Salvar</button>
     <a asp-action="Index" class="btn-modern-cancel w-100 mt-2">Cancelar</a>

@@ -1,23 +1,21 @@
-﻿@model Celular
+﻿@model Aluno
 
 @{
-    ViewData["Title"] = "Excluir Celular";
+    ViewData["Title"] = "Excluir Aluno";
 }
 
 <div class="container_ex">
     <div class="header-section text-center mb-4">
-        <h2 class="header-title text-danger">Excluir Celular</h2>
-        <p class="text-white">Tem certeza que deseja excluir este celular?</p>
+        <h2 class="header-title text-danger">Excluir Aluno</h2>
+        <p class="text-white">Tem certeza que deseja excluir este aluno?</p>
     </div>
 
     <div class="car-card text-center">
-        <p><strong>📱 Marca:</strong> @Model.Marca</p>
+        <p><strong>👤 Nome:</strong> @Model.Nome</p>
         <hr class="divider">
-        <p><strong>📌 Modelo:</strong> @Model.Modelo</p>
+        <p><strong>🆔 RA:</strong> @Model.RA</p>
         <hr class="divider">
-        <p><strong>💰 Preço:</strong> R$ @String.Format("{0:N2}", Model.Preco)</p>
-        <hr class="divider">
-        <p><strong>📅 Data de Fabricação:</strong> @Model.Data.ToString("dd/MM/yyyy")</p>
+        <p><strong>📅 Data de Nascimento:</strong> @Model.DataNascimento.ToString("dd/MM/yyyy")</p>
     </div>
 
     <div class="btn-container">

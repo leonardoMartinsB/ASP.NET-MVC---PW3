@@ -6,8 +6,11 @@
 
 <div class="container-fluid">
     <div class="header-section">
-        <h2 class="header-title">Lista de Eventos</h2>
-        <a asp-action="Cadastrar" class="btn-modern">+ Adicionar Novo Evento</a>
+        <h2 class="header-title">Lista de Carros</h2>
+        <div class="action-group">
+            <a asp-action="BaixarPDF" class="btn-modern btn-download">📄 Baixar PDF</a>
+            <a asp-action="Cadastrar" class="btn-modern">+ Adicionar Novo Carro</a>
+        </div>
     </div>
 
     <div class="table-responsive">

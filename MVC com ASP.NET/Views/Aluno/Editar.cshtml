@@ -1,0 +1,93 @@
+﻿@model Aluno
+
+@{
+    ViewData["Title"] = "Editar Aluno";
+}
+
+<div class="container">
+
+    <form asp-action="Editar" method="post" class="bg-dark text-white rounded shadow-lg p-4" style="max-width: 500px; margin: auto;">
+        <h2 class="text-center mb-4 text-white">Editar Aluno</h2>
+        <input asp-for="Id" type="hidden" />
+
+        <div class="mb-3">
+            <label for="Nome" class="form-label fw-bold">Nome</label>
+            <input asp-for="Nome" id="Nome" class="form-control input-custom" placeholder="Digite o nome do aluno" required />
+            <span asp-validation-for="Nome" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label for="RA" class="form-label fw-bold">RA</label>
+            <input asp-for="RA" id="RA" class="form-control input-custom"
+                   placeholder="Digite o RA"
+                   maxlength="6"
+                   pattern="\d{1,6}"
+                   inputmode="numeric"
+                   required />
+            <span asp-validation-for="RA" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label for="DataNascimento" class="form-label fw-bold">Data de Nascimento</label>
+            <input asp-for="DataNascimento" id="DataNascimento" class="form-control input-custom" type="date" required />
+            <span asp-validation-for="DataNascimento" class="text-danger"></span>
+        </div>
+
+        <div class="text-center">
+            <button type="submit" class="btn btn-success w-100 mb-2">Salvar Alterações</button>
+            <a asp-action="Index" class="btn btn-secondary w-100">Cancelar</a>
+        </div>
+    </form>
+</div>
+
+<style>
+    body {
+        background-color: #121212;
+        font-family: 'Arial', sans-serif;
+        color: #fff;
+    }
+
+    .form-label {
+        color: #fff;
+    }
+
+    .input-custom {
+        background-color: #2c2c2c;
+        color: white;
+        border-radius: 8px;
+        padding: 12px;
+        border: 1px solid #444;
+        transition: border-color 0.3s ease;
+    }
+
+        .input-custom:focus {
+            border-color: #17a2b8;
+            box-shadow: 0 0 8px rgba(23, 162, 184, 0.5);
+        }
+
+    .btn {
+        padding: 10px;
+        border-radius: 8px;
+        font-size: 15px;
+    }
+
+    .btn-success {
+        background-color: #28a745;
+        border-color: #28a745;
+    }
+
+        .btn-success:hover {
+            background-color: #218838;
+            border-color: #1e7e34;
+        }
+
+    .btn-secondary {
+        background-color: #6c757d;
+        border-color: #6c757d;
+    }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+            border-color: #545b62;
+        }
+</style>

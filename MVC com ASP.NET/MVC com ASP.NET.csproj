@@ -7,4 +7,9 @@
     <RootNamespace>MVC_com_ASP.NET</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="itext7" Version="9.1.0" />
+    <PackageReference Include="itext7.bouncy-castle-adapter" Version="9.1.0" />
+  </ItemGroup>
+
 </Project>
