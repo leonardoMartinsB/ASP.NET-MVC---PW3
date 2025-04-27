@@ -14,6 +14,8 @@ using iText.Layout.Borders;
 using Microsoft.AspNetCore.Hosting;
 using System.IO;
 
+using ClosedXML.Excel; // exel
+
 namespace WebApplication1.Controllers
 {
     public class CelularController : Controller
@@ -22,8 +24,16 @@ namespace WebApplication1.Controllers
         {
             new Celular { Id = 1, Marca = "Apple", Modelo = "iPhone 14", Preco = 7000, Data = new DateTime(2023, 10, 1) },
             new Celular { Id = 2, Marca = "Samsung", Modelo = "Galaxy S23", Preco = 6500, Data = new DateTime(2023, 9, 15) },
-            new Celular { Id = 3, Marca = "Xiaomi", Modelo = "Mi 12", Preco = 4000, Data = new DateTime(2023, 8, 20) }
+            new Celular { Id = 3, Marca = "Xiaomi", Modelo = "Mi 12", Preco = 4000, Data = new DateTime(2023, 8, 20) },
+            new Celular { Id = 4, Marca = "Motorola", Modelo = "Edge 40", Preco = 3500, Data = new DateTime(2023, 7, 10) },
+            new Celular { Id = 5, Marca = "Huawei", Modelo = "P50 Pro", Preco = 5000, Data = new DateTime(2023, 6, 5) },
+            new Celular { Id = 6, Marca = "Oppo", Modelo = "Find X5", Preco = 6000, Data = new DateTime(2023, 5, 18) },
+            new Celular { Id = 7, Marca = "Realme", Modelo = "GT 2 Pro", Preco = 4500, Data = new DateTime(2023, 4, 25) },
+            new Celular { Id = 8, Marca = "OnePlus", Modelo = "9 Pro", Preco = 5500, Data = new DateTime(2023, 3, 30) },
+            new Celular { Id = 9, Marca = "Google", Modelo = "Pixel 7", Preco = 6200, Data = new DateTime(2023, 2, 10) },
+            new Celular { Id = 10, Marca = "Sony", Modelo = "Xperia 1 IV", Preco = 7500, Data = new DateTime(2023, 1, 15) }
         };
+
 
 
         public IActionResult Index() => View(_celulares);
@@ -188,5 +198,61 @@ namespace WebApplication1.Controllers
                 .SetTextAlignment(TextAlignment.LEFT)
                 .SetBorder(new SolidBorder(0.5f));
         }
+
+        public IActionResult BaixarExcel()
+        {
+            using (var workbook = new XLWorkbook())
+            {
+                var worksheet = workbook.Worksheets.Add("Celulares");
+
+                // Cabeçalhos
+                worksheet.Cell(1, 1).Value = "ID";
+                worksheet.Cell(1, 2).Value = "Marca";
+                worksheet.Cell(1, 3).Value = "Modelo";
+                worksheet.Cell(1, 4).Value = "Preço";
+                worksheet.Cell(1, 5).Value = "Data de Lançamento";
+
+                // Estilo do cabeçalho
+                var headerRange = worksheet.Range(1, 1, 1, 5);
+                headerRange.Style.Font.Bold = true;
+                headerRange.Style.Fill.BackgroundColor = XLColor.LightBlue;
+                headerRange.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                headerRange.Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+                headerRange.Style.Border.InsideBorder = XLBorderStyleValues.Thin;
+
+                // Dados
+                int linha = 2;
+                foreach (var celular in _celulares) // Alterado de _carros para _celulares
+                {
+                    worksheet.Cell(linha, 1).Value = celular.Id;
+                    worksheet.Cell(linha, 2).Value = celular.Marca;
+                    worksheet.Cell(linha, 3).Value = celular.Modelo;
+                    worksheet.Cell(linha, 4).Value = celular.Preco.ToString("C");
+                    worksheet.Cell(linha, 5).Value = celular.Data.ToString("dd/MM/yyyy"); // Data de Lançamento
+
+                    linha++;
+                }
+
+                // Ajustar tamanhos das colunas automaticamente
+                worksheet.Columns().AdjustToContents();
+
+                // Centralizar as células de ID e Data
+                worksheet.Column(1).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                worksheet.Column(5).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+
+                // Bordas para toda a tabela
+                var dataRange = worksheet.Range(1, 1, linha - 1, 5);
+                dataRange.Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+                dataRange.Style.Border.InsideBorder = XLBorderStyleValues.Thin;
+
+                using (var stream = new MemoryStream())
+                {
+                    workbook.SaveAs(stream);
+                    var content = stream.ToArray();
+                    return File(content, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "ListaDeCelulares.xlsx"); // Nome alterado para "ListaDeCelulares.xlsx"
+                }
+            }
+        }
+
     }
 }

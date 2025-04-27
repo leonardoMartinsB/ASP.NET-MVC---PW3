@@ -13,6 +13,8 @@ using iText.Layout.Borders;
 using Microsoft.AspNetCore.Hosting;
 using System.IO;
 
+using ClosedXML.Excel; // <- adicione esse using no topo
+
 namespace WebApplication1.Controllers
 {
     public class AlunoController : Controller
@@ -20,8 +22,17 @@ namespace WebApplication1.Controllers
         private static List<Aluno> _alunos = new List<Aluno>
         {
             new Aluno { Id = 1, Nome = "João Silva", RA = 123456, DataNascimento = new DateTime(2000, 5, 12) },
-            new Aluno { Id = 2, Nome = "Maria Souza", RA = 654321, DataNascimento = new DateTime(2001, 9, 30)}
+            new Aluno { Id = 2, Nome = "Maria Souza", RA = 654321, DataNascimento = new DateTime(2001, 9, 30) },
+            new Aluno { Id = 3, Nome = "Carlos Mendes", RA = 789012, DataNascimento = new DateTime(1999, 8, 22) },
+            new Aluno { Id = 4, Nome = "Ana Paula", RA = 210987, DataNascimento = new DateTime(2002, 1, 15) },
+            new Aluno { Id = 5, Nome = "Felipe Rocha", RA = 345678, DataNascimento = new DateTime(2000, 3, 10) },
+            new Aluno { Id = 6, Nome = "Juliana Costa", RA = 456789, DataNascimento = new DateTime(2001, 7, 5) },
+            new Aluno { Id = 7, Nome = "Ricardo Lima", RA = 567890, DataNascimento = new DateTime(1998, 11, 25) },
+            new Aluno { Id = 8, Nome = "Patrícia Gomes", RA = 678901, DataNascimento = new DateTime(1999, 4, 18) },
+            new Aluno { Id = 9, Nome = "Bruno Fernandes", RA = 789123, DataNascimento = new DateTime(2002, 6, 8) },
+            new Aluno { Id = 10, Nome = "Camila Ferreira", RA = 890123, DataNascimento = new DateTime(2000, 12, 2) }
         };
+
 
         public IActionResult Index() => View(_alunos);
 
@@ -150,6 +161,60 @@ namespace WebApplication1.Controllers
                 .Add(new Paragraph(content).SetFont(font))
                 .SetTextAlignment(TextAlignment.LEFT)
                 .SetBorder(new SolidBorder(0.5f));
+        }
+
+        public IActionResult BaixarExcel()
+        {
+            using (var workbook = new XLWorkbook())
+            {
+                var worksheet = workbook.Worksheets.Add("Alunos");
+
+                // Cabeçalhos
+                worksheet.Cell(1, 1).Value = "ID";
+                worksheet.Cell(1, 2).Value = "Nome";
+                worksheet.Cell(1, 3).Value = "RA";
+                worksheet.Cell(1, 4).Value = "Data de Nascimento";
+
+                // Estilo do cabeçalho
+                var headerRange = worksheet.Range(1, 1, 1, 4);
+                headerRange.Style.Font.Bold = true;
+                headerRange.Style.Fill.BackgroundColor = XLColor.LightBlue;
+                headerRange.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                headerRange.Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+                headerRange.Style.Border.InsideBorder = XLBorderStyleValues.Thin;
+
+                // Dados
+                int linha = 2;
+                foreach (var aluno in _alunos)
+                {
+                    worksheet.Cell(linha, 1).Value = aluno.Id;
+                    worksheet.Cell(linha, 2).Value = aluno.Nome;
+                    worksheet.Cell(linha, 3).Value = aluno.RA;
+                    worksheet.Cell(linha, 4).Value = aluno.DataNascimento.ToString("dd/MM/yyyy");
+
+                    linha++;
+                }
+
+                // Ajustar tamanhos das colunas automaticamente
+                worksheet.Columns().AdjustToContents();
+
+                // Centralizar todas as células de ID e RA
+                worksheet.Column(1).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                worksheet.Column(3).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                worksheet.Column(4).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+
+                // Bordas para toda a tabela
+                var dataRange = worksheet.Range(1, 1, linha - 1, 4);
+                dataRange.Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+                dataRange.Style.Border.InsideBorder = XLBorderStyleValues.Thin;
+
+                using (var stream = new MemoryStream())
+                {
+                    workbook.SaveAs(stream);
+                    var content = stream.ToArray();
+                    return File(content, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "ListaDeAlunos.xlsx");
+                }
+            }
         }
     }
 }

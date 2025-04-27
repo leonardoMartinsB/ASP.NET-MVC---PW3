@@ -13,6 +13,8 @@ using iText.Layout.Borders;
 using Microsoft.AspNetCore.Hosting;
 using System.IO;
 
+using ClosedXML.Excel; // exel
+
 namespace WebApplication1.Controllers
 {
     public class EventoController : Controller
@@ -21,8 +23,16 @@ namespace WebApplication1.Controllers
         {
             new Evento { Id = 1, Nome = "Lollapalooza", Data = new DateTime(2025, 4, 15), Local = "São Paulo" },
             new Evento { Id = 2, Nome = "Rock in Rio", Data = new DateTime(2026, 9, 10), Local = "Rio de Janeiro" },
-            new Evento { Id = 3, Nome = "Comic Con", Data = new DateTime(2025, 12, 5), Local = "São Paulo" }
+            new Evento { Id = 3, Nome = "Comic Con", Data = new DateTime(2025, 12, 5), Local = "São Paulo" },
+            new Evento { Id = 4, Nome = "Festival de Cinema de Cannes", Data = new DateTime(2025, 5, 15), Local = "Cannes" },
+            new Evento { Id = 5, Nome = "Festival de Parintins", Data = new DateTime(2025, 6, 20), Local = "Parintins" },
+            new Evento { Id = 6, Nome = "Festa do Peão de Barretos", Data = new DateTime(2025, 8, 2), Local = "Barretos" },
+            new Evento { Id = 7, Nome = "Festa de São João", Data = new DateTime(2025, 6, 24), Local = "Campina Grande" },
+            new Evento { Id = 8, Nome = "F1 Grand Prix", Data = new DateTime(2025, 11, 1), Local = "São Paulo" },
+            new Evento { Id = 9, Nome = "Rock n' Jazz Festival", Data = new DateTime(2025, 10, 8), Local = "Curitiba" },
+            new Evento { Id = 10, Nome = "São Paulo Fashion Week", Data = new DateTime(2025, 10, 30), Local = "São Paulo" }
         };
+
 
         public IActionResult Index()
         {
@@ -149,6 +159,58 @@ namespace WebApplication1.Controllers
                 .Add(new Paragraph(content).SetFont(font))
                 .SetTextAlignment(TextAlignment.LEFT)
                 .SetBorder(new SolidBorder(0.5f));
+        }
+        public IActionResult BaixarExcel()
+        {
+            using (var workbook = new XLWorkbook())
+            {
+                var worksheet = workbook.Worksheets.Add("Eventos");
+
+                // Cabeçalhos
+                worksheet.Cell(1, 1).Value = "ID";
+                worksheet.Cell(1, 2).Value = "Nome";
+                worksheet.Cell(1, 3).Value = "Local";
+                worksheet.Cell(1, 4).Value = "Data";
+
+                // Estilo do cabeçalho
+                var headerRange = worksheet.Range(1, 1, 1, 4);
+                headerRange.Style.Font.Bold = true;
+                headerRange.Style.Fill.BackgroundColor = XLColor.LightBlue;
+                headerRange.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                headerRange.Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+                headerRange.Style.Border.InsideBorder = XLBorderStyleValues.Thin;
+
+                // Dados
+                int linha = 2;
+                foreach (var evento in _eventos) // Alterado de _celulares para _eventos
+                {
+                    worksheet.Cell(linha, 1).Value = evento.Id;
+                    worksheet.Cell(linha, 2).Value = evento.Nome;
+                    worksheet.Cell(linha, 3).Value = evento.Local;
+                    worksheet.Cell(linha, 4).Value = evento.Data.ToString("dd/MM/yyyy"); // Data do Evento
+
+                    linha++;
+                }
+
+                // Ajustar tamanhos das colunas automaticamente
+                worksheet.Columns().AdjustToContents();
+
+                // Centralizar as células de ID e Data
+                worksheet.Column(1).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                worksheet.Column(4).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+
+                // Bordas para toda a tabela
+                var dataRange = worksheet.Range(1, 1, linha - 1, 4);
+                dataRange.Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+                dataRange.Style.Border.InsideBorder = XLBorderStyleValues.Thin;
+
+                using (var stream = new MemoryStream())
+                {
+                    workbook.SaveAs(stream);
+                    var content = stream.ToArray();
+                    return File(content, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "ListaDeEventos.xlsx"); // Nome alterado para "ListaDeEventos.xlsx"
+                }
+            }
         }
     }
 }

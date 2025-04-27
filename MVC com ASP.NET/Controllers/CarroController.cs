@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-using iText.Kernel.Pdf;
+using iText.Kernel.Pdf; // pdf
 using iText.Layout;
 using iText.Layout.Element;
 using iText.Layout.Properties;
@@ -13,6 +13,8 @@ using iText.Layout.Borders;
 using Microsoft.AspNetCore.Hosting;
 using System.IO;
 
+using ClosedXML.Excel; // exel
+
 namespace WebApplication1.Controllers
 {
     public class CarroController : Controller
@@ -21,8 +23,16 @@ namespace WebApplication1.Controllers
         {
             new Carro { Id = 1, Marca = "Tesla", Modelo = "Model S", Cor = "Branco", Placa = "ABC1234", Ano = new DateTime(2023, 03, 15), Preco = 2500000 },
             new Carro { Id = 2, Marca = "BMW", Modelo = "X5", Cor = "Preto", Placa = "XYZ5678", Ano = new DateTime(2022, 06, 10), Preco = 580000 },
-            new Carro { Id = 3, Marca = "Audi", Modelo = "A4", Cor = "Prata", Placa = "LMN9101", Ano = new DateTime(2021, 08, 25), Preco = 180000 }
+            new Carro { Id = 3, Marca = "Audi", Modelo = "A4", Cor = "Prata", Placa = "LMN9101", Ano = new DateTime(2021, 08, 25), Preco = 180000 },
+            new Carro { Id = 4, Marca = "Mercedes", Modelo = "C-Class", Cor = "Azul", Placa = "QRS1122", Ano = new DateTime(2020, 11, 05), Preco = 210000 },
+            new Carro { Id = 5, Marca = "Ford", Modelo = "Mustang", Cor = "Vermelho", Placa = "DEF3344", Ano = new DateTime(2019, 02, 14), Preco = 350000 },
+            new Carro { Id = 6, Marca = "Chevrolet", Modelo = "Camaro", Cor = "Amarelo", Placa = "GHI5566", Ano = new DateTime(2021, 07, 20), Preco = 400000 },
+            new Carro { Id = 7, Marca = "Porsche", Modelo = "911", Cor = "Cinza", Placa = "JKL7788", Ano = new DateTime(2023, 01, 10), Preco = 1200000 },
+            new Carro { Id = 8, Marca = "Honda", Modelo = "Civic", Cor = "Preto", Placa = "MNO9900", Ano = new DateTime(2018, 04, 30), Preco = 90000 },
+            new Carro { Id = 9, Marca = "Toyota", Modelo = "Corolla", Cor = "Branco", Placa = "PQR2233", Ano = new DateTime(2020, 09, 05), Preco = 100000 },
+            new Carro { Id = 10, Marca = "Nissan", Modelo = "Altima", Cor = "Prata", Placa = "STU4455", Ano = new DateTime(2022, 12, 15), Preco = 120000 }
         };
+
         public IActionResult Index() => View(_carros);
 
         public IActionResult Visualizar(int id)
@@ -226,6 +236,66 @@ namespace WebApplication1.Controllers
                 .Add(new Paragraph(content).SetFont(font))
                 .SetTextAlignment(TextAlignment.LEFT)
                 .SetBorder(new SolidBorder(0.5f));
+        }
+
+        public IActionResult BaixarExcel()
+        {
+            using (var workbook = new XLWorkbook())
+            {
+                var worksheet = workbook.Worksheets.Add("Carros");
+
+                // Cabeçalhos
+                worksheet.Cell(1, 1).Value = "ID";
+                worksheet.Cell(1, 2).Value = "Marca";
+                worksheet.Cell(1, 3).Value = "Modelo";
+                worksheet.Cell(1, 4).Value = "Cor";
+                worksheet.Cell(1, 5).Value = "Ano";
+                worksheet.Cell(1, 6).Value = "Placa";
+                worksheet.Cell(1, 7).Value = "Preço";
+
+                // Estilo do cabeçalho
+                var headerRange = worksheet.Range(1, 1, 1, 7);
+                headerRange.Style.Font.Bold = true;
+                headerRange.Style.Fill.BackgroundColor = XLColor.LightBlue;
+                headerRange.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                headerRange.Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+                headerRange.Style.Border.InsideBorder = XLBorderStyleValues.Thin;
+
+                // Dados
+                int linha = 2;
+                foreach (var carro in _carros)
+                {
+                    worksheet.Cell(linha, 1).Value = carro.Id;
+                    worksheet.Cell(linha, 2).Value = carro.Marca;
+                    worksheet.Cell(linha, 3).Value = carro.Modelo;
+                    worksheet.Cell(linha, 4).Value = carro.Cor;
+                    worksheet.Cell(linha, 5).Value = carro.Ano.ToString("yyyy");
+                    worksheet.Cell(linha, 6).Value = carro.Placa;
+                    worksheet.Cell(linha, 7).Value = carro.Preco.ToString("C");
+
+                    linha++;
+                }
+
+                // Ajustar tamanhos das colunas automaticamente
+                worksheet.Columns().AdjustToContents();
+
+                // Centralizar as células de ID
+                worksheet.Column(1).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                worksheet.Column(5).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                worksheet.Column(6).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+
+                // Bordas para toda a tabela
+                var dataRange = worksheet.Range(1, 1, linha - 1, 7);
+                dataRange.Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+                dataRange.Style.Border.InsideBorder = XLBorderStyleValues.Thin;
+
+                using (var stream = new MemoryStream())
+                {
+                    workbook.SaveAs(stream);
+                    var content = stream.ToArray();
+                    return File(content, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "ListaDeCarros.xlsx");
+                }
+            }
         }
     }
 }
